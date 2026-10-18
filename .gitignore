@@ -1,0 +1,5 @@
+.env
+!.env.example
+DATABASE_URL=postgresql+psycopg://postgres:root2323@localhost/planner
+__pycache__/
+.venv
