@@ -2,4 +2,3 @@
 !.env.example
 __pycache__/
 .venv
-alembic.ini

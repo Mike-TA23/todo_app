@@ -10,5 +10,5 @@ class TaskModel(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str]
     status: Mapped[str]
-    text: Mapped[str]
+    text: Mapped[str | None]
     deadline: Mapped[date]
