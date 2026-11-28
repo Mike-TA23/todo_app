@@ -8,8 +8,11 @@ def get_task(db: Session, task_id: int):
     return db.get(models.TaskModel, task_id)
 
 
-def get_tasks(db: Session):
-    return db.scalars(select(models.TaskModel)).all()
+def get_tasks(db: Session, status: schemas.TaskStatus, limit: int):
+    if (status is None):
+        return db.scalars(select(models.TaskModel).limit(limit)).all()
+    else:
+        return db.scalars(select(models.TaskModel).where(models.TaskModel.status == status).limit(limit)).all()
 
 def create_task(task: schemas.TaskCreator, db: Session):
     new_task = models.TaskModel(**task.model_dump())

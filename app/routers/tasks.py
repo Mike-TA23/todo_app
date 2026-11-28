@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, Query, HTTPException
 from datetime import date
 from sqlalchemy.orm import Session
 
@@ -8,8 +8,8 @@ from app.database import get_db
 router = APIRouter(prefix="/tasks", tags=["tasks"])
 
 @router.get("/", response_model=list[schemas.Task])
-def read_tasks(db: Session = Depends(get_db)):
-    tasks = crud.tasks.get_tasks(db)
+def read_tasks(db: Session = Depends(get_db), status: schemas.TaskStatus | None = None, limit: int = Query(default=20, ge=1, le=100)):
+    tasks = crud.tasks.get_tasks(db, status=status, limit=limit)
     return tasks
 
 @router.get("/{id}", response_model=schemas.Task)
