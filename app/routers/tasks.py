@@ -8,9 +8,13 @@ from app.database import get_db
 router = APIRouter(prefix="/tasks", tags=["tasks"])
 
 @router.get("/", response_model=list[schemas.Task])
-def read_tasks(db: Session = Depends(get_db), status: schemas.TaskStatus | None = None, limit: int = Query(default=20, ge=1, le=100)):
-    tasks = crud.tasks.get_tasks(db, status=status, limit=limit)
-    return tasks
+def read_tasks(
+    db: Session = Depends(get_db),
+    status: schemas.TaskStatus | None = None,
+    limit: int = Query(default=20, ge=1, le=100),
+    offset: int = Query(default=0, ge=0, le=100)):
+        tasks = crud.tasks.get_tasks(db, status=status, limit=limit, offset=offset)
+        return tasks
 
 @router.get("/{id}", response_model=schemas.Task)
 def get_task_by_id(id: int, db: Session = Depends(get_db)):
